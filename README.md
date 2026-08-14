@@ -13,7 +13,8 @@ interactive HTML page.
   — not a screenshot, not an iframe. That's new, and most people haven't seen it yet.
 - Docs show effects one at a time. Nothing showed the same interface run through all of them,
   which is the fastest way to work out which effect is right for what.
-- So: one page, one UI, 33 lenses, plus a note on what each effect is actually good for.
+- So: one page, one UI, 33 lenses, plus a note on what each is actually good for — and a
+  from-scratch engine to show the API underneath is open to anyone.
 
 ## What it does
 
@@ -86,8 +87,9 @@ anyone's proprietary work; the only new part is that the source texture is live 
 
 ## Credit
 
-- **[Canvas UI](https://canvasui.dev)** by its author — every effect here is theirs. This repo
-  is just a display case. If you like what you see, use their library, not my screenshots.
+- **[Canvas UI](https://canvasui.dev)** by its author — the 33 catalogued effects are all
+  theirs, and they're the reason this exists. If you like what you see, go use their
+  library. The six in `src/fx/` are mine; everything else on the bench is theirs.
 - **[WICG html-in-canvas](https://github.com/WICG/html-in-canvas)** — the explainer behind the
   API, including the security model that explains why it's still behind a flag.
 - **[shadcn/ui](https://ui.shadcn.com)** — the registry protocol the components ship over.
