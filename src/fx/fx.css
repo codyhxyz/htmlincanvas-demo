@@ -1,0 +1,25 @@
+/* The canvas is a normal block in flow; its height is set from the measured
+   content by the engine, so the wrapper grows the way the content would have.
+   Nothing is absolutely positioned, which is what keeps the subtree from
+   collapsing to a 1px strip. */
+
+.fx {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.fx__canvas {
+  display: block;
+  width: 100%;
+}
+
+.fx__content {
+  display: block;
+  width: 100%;
+}
+
+/* Without the API the children are the only thing rendered. */
+.fx--plain .fx__content {
+  display: block;
+}

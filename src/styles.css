@@ -1000,3 +1000,64 @@ a {
     padding: 10px 12px;
   }
 }
+
+/* ── Our own engine bench ────────────────────────────────────────────────*/
+
+.ourbench {
+  border: var(--hair) solid var(--rule);
+  background: var(--ink-1);
+  overflow: hidden;
+}
+
+.ourstage {
+  height: 520px;
+  display: flex;
+}
+
+.ourstage > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.ourbench__note {
+  padding: 12px 14px;
+  border-top: var(--hair) solid rgba(255, 138, 61, 0.3);
+  background: rgba(255, 138, 61, 0.05);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--bone-2);
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.slider input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: var(--rule);
+  outline: none;
+}
+
+.slider input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  background: var(--acid);
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider input::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  background: var(--acid);
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+}

@@ -17,9 +17,12 @@ interactive HTML page.
 
 ## What it does
 
-- **Bench** — pick any of 28 lenses; they apply to a live specimen UI (console / storefront /
-  editorial). The buttons still click and the input still types while it's being shattered.
+- **Bench** — pick any of 28 Canvas UI lenses; they apply to a live specimen UI (console /
+  storefront / editorial). The buttons still click and the input still types while it's
+  being shattered.
 - **Objects** — the 5 three.js renderers, all pointed at the same SVG. Feed them a GLB, SVG, or PNG.
+- **Built here** — six effects and the engine under them, written from the raw API. Ours,
+  MIT, in this repo, no dependency. See below.
 - **Uses** — all 33 with the use case each one is genuinely best at.
 - `F` applies the current effect to the entire page, including itself. `[` and `]` cycle. State
   lives in the URL: `?fx=shatter&surface=editorial`.
@@ -46,7 +49,32 @@ painting, or it becomes a history-sniffing oracle). Alternatively:
 
 The other 15 effects (10 WebGL overlays + 5 three.js objects) need no flag at all.
 
-## About the components
+## The engine in `src/fx/`
+
+Canvas UI is great, but the API underneath it is a public web standard that anyone can
+build on. So `src/fx/` is a from-scratch implementation — about 200 lines plus one fragment
+shader per effect — to show how little there is to it:
+
+```js
+canvas.setAttribute("layoutsubtree", "")     // children lay out inside the canvas
+canvas.requestPaint()                         // ask for a paint record
+canvas.addEventListener("paint", () => {      // ONLY valid inside this event
+  gl.texElementImage2D(gl.TEXTURE_2D, gl.RGBA8, contentEl)
+})
+```
+
+That's the whole API. Two gotchas worth knowing, both learned the hard way:
+
+- `drawElementImage` / `texElementImage2D` throw `InvalidStateError` ("no cached paint
+  record") anywhere outside the `paint` event.
+- `texElementImage2D` takes `(target, internalformat, element)` — the second argument is a
+  **sized** internal format (`RGBA8`, `SRGB8_ALPHA8`, `RGBA16F`, `RGBA32F`), not a mip level.
+
+The six shaders — mosaic, ordered dither, ASCII, tear, ripple, CRT — are all long-established
+graphics techniques implemented from the maths. Bayer dithering is from 1973. None of it is
+anyone's proprietary work; the only new part is that the source texture is live DOM.
+
+## About the Canvas UI components
 
 - The effects are **not** in this repo. `scripts/vendor.mjs` pulls them from Canvas UI's
   official shadcn registry into `src/canvasui/` on `npm install`.
@@ -63,9 +91,10 @@ The other 15 effects (10 WebGL overlays + 5 three.js objects) need no flag at al
 - **[WICG html-in-canvas](https://github.com/WICG/html-in-canvas)** — the explainer behind the
   API, including the security model that explains why it's still behind a flag.
 - **[shadcn/ui](https://ui.shadcn.com)** — the registry protocol the components ship over.
-- Specimen UIs, layout, copy, and the idea catalog are mine.
+- Specimen UIs, layout, copy, the idea catalog, and the `src/fx/` engine are mine.
 
 ## License
 
-MIT for the code in this repo. The Canvas UI components fetched at install stay under their
-own license (MIT + Commons Clause) and are not covered by this one.
+MIT for everything in this repo, including the `src/fx/` engine and shaders — use them for
+anything. The Canvas UI components fetched at install stay under their own license
+(MIT + Commons Clause) and are not covered by this one.

@@ -12,6 +12,7 @@ import {
 import { effects, loaders, type EffectMeta } from "./canvasui";
 import { BY_SLUG, FAMILY_LABEL, FAMILY_NOTE, IDEAS, type Family } from "./data/effects";
 import { SURFACES, Surface, type SurfaceId } from "./components/Surfaces";
+import { Fx, OURS, type OurEffectId } from "./fx/Fx";
 import "./styles.css";
 
 /* ── html-in-canvas probe ──────────────────────────────────────────────────
@@ -286,7 +287,9 @@ function readParams() {
   const p = new URLSearchParams(location.search);
   const fx = p.get("fx");
   const sf = p.get("surface");
+  const our = p.get("ourfx");
   return {
+    our: OURS.some((o) => o.id === our) ? (our as OurEffectId) : undefined,
     fx: fx && loaders[fx] && BY_SLUG.get(fx)?.family !== "object" ? fx : undefined,
     obj: fx && BY_SLUG.get(fx)?.family === "object" ? fx : undefined,
     surface: SURFACES.some((s) => s.id === sf) ? (sf as SurfaceId) : undefined,
@@ -300,14 +303,17 @@ export default function App() {
   const [surface, setSurface] = useState<SurfaceId>(init.surface ?? "ops");
   const [bleed, setBleed] = useState(false);
   const [objSlug, setObjSlug] = useState(init.obj ?? "glass-object");
+  const [ourFx, setOurFx] = useState<OurEffectId>(init.our ?? "dither");
+  const [ourAmt, setOurAmt] = useState(1);
 
   // Keep the URL in step without adding history entries on every click.
   useEffect(() => {
     const p = new URLSearchParams(location.search);
     p.set("fx", slug);
     p.set("surface", surface);
+    p.set("ourfx", ourFx);
     history.replaceState(null, "", `?${p}${location.hash}`);
-  }, [slug, surface]);
+  }, [slug, surface, ourFx]);
 
   const meta = META.get(slug)!;
   const idea = BY_SLUG.get(slug)!;
@@ -498,6 +504,70 @@ export default function App() {
             <p className="readout__idea" style={{ fontSize: 10.5, opacity: 0.6 }}>
               Rendering <code>public/mark.svg</code>. Swap <code>src</code> for your own
               wordmark and it extrudes automatically.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      {/* ── Our own engine ───────────────────────────────────────────── */}
+      <section className="sec" id="ours">
+        <div className="sec__head">
+          <h2>Built here</h2>
+          <p className="sec__note">
+            Six effects and the engine under them, written from the raw API. MIT, in the repo,
+            no dependency.
+          </p>
+        </div>
+
+        <div className="obj">
+          <WhenVisible minHeight={520}>
+            <div className="ourbench">
+              <Fx
+                effect={ourFx}
+                amount={ourAmt}
+                fallback={
+                  <div className="ourbench__note">
+                    Needs <code>chrome://flags/#canvas-draw-element</code>. Above, the page is
+                    rendering as plain HTML — which is the fallback these ship with.
+                  </div>
+                }
+              >
+                <div className="ourstage">
+                  <Surface id={surface} />
+                </div>
+              </Fx>
+            </div>
+          </WhenVisible>
+
+          <aside className="readout">
+            <div className="objpick">
+              {OURS.map((o) => (
+                <button
+                  key={o.id}
+                  aria-pressed={ourFx === o.id}
+                  onClick={() => setOurFx(o.id)}
+                >
+                  {o.name}
+                </button>
+              ))}
+            </div>
+            <p className="readout__idea">{OURS.find((o) => o.id === ourFx)!.blurb}</p>
+            <label className="slider">
+              <span className="label">Intensity</span>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={ourAmt}
+                onChange={(e) => setOurAmt(Number(e.target.value))}
+                aria-label="Effect intensity"
+              />
+            </label>
+            <p className="readout__idea" style={{ fontSize: 10.5, opacity: 0.62 }}>
+              <code>src/fx/</code> — a {"~"}200-line engine over{" "}
+              <code>requestPaint</code> + <code>texElementImage2D</code>, plus one fragment
+              shader per effect. Techniques are decades old; only the source texture is new.
             </p>
           </aside>
         </div>
