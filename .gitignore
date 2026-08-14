@@ -30,3 +30,4 @@ dist-ssr
 # scripts/vendor.mjs (npm run vendor). Their license asks that the
 # components not be redistributed, so they are not committed here.
 src/canvasui/
+.vercel
