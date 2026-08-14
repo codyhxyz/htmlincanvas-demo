@@ -1,0 +1,1002 @@
+/* ============================================================
+   OPTICS BENCH — a laboratory catalog for Canvas UI
+   Graphite ground, bone type, one acid accent. The chrome stays
+   near-monochrome on purpose: every drop of color on this page
+   should be coming out of a shader.
+   ============================================================ */
+
+:root {
+  --ink: #0a0a0b;
+  --ink-1: #0e0e10;
+  --ink-2: #131316;
+  --ink-3: #1a1a1e;
+
+  /* Text ramp. Alphas verified against ink / ink-1 / ink-3: every value used
+     for text clears 4.5:1. Anything below --bone-4 is decoration only. */
+  --bone: #ede9e0;
+  --bone-2: rgba(237, 233, 224, 0.72); /* 7.5:1  secondary prose  */
+  --bone-3: rgba(237, 233, 224, 0.58); /* 5.5:1  labels, captions */
+  --bone-4: rgba(237, 233, 224, 0.52); /* 4.6:1  faintest text    */
+
+  --rule: rgba(237, 233, 224, 0.13);
+  --rule-soft: rgba(237, 233, 224, 0.06);
+
+  --acid: #d6f84c;
+  --warn: #ff8a3d;
+
+  --mono: "Spline Sans Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --gut: clamp(20px, 4vw, 56px);
+  --hair: 1px;
+
+  /* z-scale, semantic */
+  --z-sticky: 40;
+  --z-overlay: 80;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Faint engineering paper under everything. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--rule-soft) var(--hair), transparent var(--hair)),
+    linear-gradient(90deg, var(--rule-soft) var(--hair), transparent var(--hair));
+  background-size: 88px 88px;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+
+::selection {
+  background: var(--acid);
+  color: var(--ink);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+/* ── Shared type helpers ─────────────────────────────────── */
+
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.serif {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* ── Instrument bar ──────────────────────────────────────── */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 var(--gut);
+  height: 46px;
+  background: rgba(10, 10, 11, 0.82);
+  backdrop-filter: blur(14px);
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.bar__mark {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 112, "wght" 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bar__mark i {
+  color: var(--acid);
+  font-style: normal;
+}
+
+.bar__spacer {
+  flex: 1;
+}
+
+.bar__stat {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  white-space: nowrap;
+}
+
+.led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bone-4);
+  flex: none;
+}
+
+.led--on {
+  background: var(--acid);
+  box-shadow: 0 0 0 3px rgba(214, 248, 76, 0.14);
+}
+
+.led--off {
+  background: var(--warn);
+  box-shadow: 0 0 0 3px rgba(255, 138, 61, 0.13);
+}
+
+/* ── Masthead ────────────────────────────────────────────── */
+
+.head {
+  position: relative;
+  z-index: 1;
+  padding: clamp(48px, 9vw, 116px) var(--gut) clamp(18px, 2.5vw, 30px);
+  max-width: 1560px;
+  margin: 0 auto;
+}
+
+.head__kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: clamp(20px, 3vw, 34px);
+}
+
+.head__rule {
+  flex: 1;
+  height: var(--hair);
+  background: var(--rule);
+}
+
+.head__stage {
+  height: clamp(112px, 17.5vw, 214px);
+  display: flex;
+  align-items: center;
+}
+
+.head h1 {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 118, "wght" 800;
+  font-size: clamp(34px, 7.4vw, 88px);
+  line-height: 0.94;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.head h1 em {
+  font-style: normal;
+  color: var(--acid);
+}
+
+.head__sub {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  margin-top: clamp(26px, 4vw, 44px);
+  padding-top: clamp(20px, 3vw, 30px);
+  border-top: var(--hair) solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .head__sub {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: clamp(30px, 6vw, 90px);
+  }
+}
+
+.head__lede {
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--bone-2);
+  max-width: 62ch;
+  font-weight: 300;
+}
+
+.head__lede strong {
+  color: var(--bone);
+  font-weight: 500;
+}
+
+.spec {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 4px 20px;
+  align-content: start;
+  font-size: 11px;
+}
+
+.spec dt {
+  color: var(--bone-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding-top: 3px;
+}
+
+.spec dd {
+  margin: 0;
+  color: var(--bone-2);
+  overflow-wrap: anywhere;
+}
+
+/* ── Section scaffolding ─────────────────────────────────── */
+
+.sec {
+  position: relative;
+  z-index: 1;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: clamp(34px, 4.5vw, 62px) var(--gut);
+}
+
+.sec__head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.sec__head h2 {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 112, "wght" 700;
+  font-size: clamp(19px, 2.3vw, 27px);
+  line-height: 1;
+  margin: 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}
+
+/* Hairline that runs the gap between heading and note — replaces the
+   01 / 02 / 03 eyebrow that used to scaffold each section. */
+.sec__head::after {
+  content: "";
+  flex: 1;
+  height: var(--hair);
+  background: var(--rule);
+  order: 1;
+}
+
+.sec__note {
+  order: 2;
+}
+
+.sec__note {
+  font-size: 11px;
+  color: var(--bone-3);
+  max-width: 40ch;
+  line-height: 1.5;
+  text-align: right;
+  margin-left: auto;
+}
+
+/* ── The bench ───────────────────────────────────────────── */
+
+.bench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+
+@media (min-width: 1080px) {
+  .bench {
+    grid-template-columns: 232px minmax(0, 1fr) 236px;
+    align-items: start;
+  }
+}
+
+/* Rail of effects */
+
+.rail {
+  border: var(--hair) solid var(--rule);
+  background: var(--ink-1);
+  max-height: 660px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+}
+
+.rail__group {
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.rail__group:last-child {
+  border-bottom: none;
+}
+
+.rail__title {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: var(--ink-2);
+  border-bottom: var(--hair) solid var(--rule);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+
+.rail__title b {
+  margin-left: auto;
+  font-weight: 400;
+  color: var(--bone-4);
+}
+
+.rail__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 12px;
+  text-align: left;
+  font-size: 12px;
+  color: var(--bone-2);
+  border-left: 2px solid transparent;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.rail__item:hover {
+  background: var(--ink-3);
+  color: var(--bone);
+}
+
+.rail__item[aria-pressed="true"] {
+  background: var(--ink-3);
+  border-left-color: var(--acid);
+  color: var(--bone);
+}
+
+.rail__item[aria-pressed="true"] .rail__n {
+  color: var(--acid);
+}
+
+.rail__n {
+  font-size: 9px;
+  color: var(--bone-4);
+  width: 15px;
+  flex: none;
+}
+
+.rail__tag {
+  margin-left: auto;
+  font-size: 9.5px;
+  color: var(--bone-4);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.rail__item--muted .rail__name {
+  opacity: 0.55;
+}
+
+/* Stage: where the lensed UI lives */
+
+.stage {
+  position: relative;
+  border: var(--hair) solid var(--rule);
+  background: var(--ink-1);
+  height: 660px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: var(--hair) solid var(--rule);
+  background: var(--ink-2);
+  flex: none;
+  flex-wrap: wrap;
+}
+
+.stage__name {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 108, "wght" 700;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.002em;
+}
+
+.stage__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  /* The effects measure this box, so give it a hard size to paint into. */
+  display: flex;
+}
+
+.stage__body > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Segmented control */
+
+.seg {
+  display: flex;
+  border: var(--hair) solid var(--rule);
+}
+
+.seg button {
+  padding: 4px 10px;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  border-right: var(--hair) solid var(--rule);
+  transition: background 0.12s, color 0.12s;
+}
+
+.seg button:last-child {
+  border-right: none;
+}
+
+.seg button:hover {
+  color: var(--bone);
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--acid);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Readout panel */
+
+.readout {
+  border: var(--hair) solid var(--rule);
+  background: var(--ink-1);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.readout__idea {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--bone-2);
+  font-weight: 300;
+  margin: 0;
+}
+
+.readout__fam {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  border: var(--hair) solid var(--rule);
+  padding: 3px 7px;
+  align-self: flex-start;
+}
+
+.snip {
+  border: var(--hair) solid var(--rule);
+  background: var(--ink);
+}
+
+.snip__top {
+  display: flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-bottom: var(--hair) solid var(--rule);
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bone-4);
+}
+
+.snip__copy {
+  margin-left: auto;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--acid);
+  padding: 0;
+}
+
+/* The install command wraps rather than scrolling — a half-visible
+   `npx shadcn@latest add @canvas-ui/glass-obje…` is useless to copy by eye. */
+.snip__cmd {
+  display: block;
+  padding: 9px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--bone-2);
+  white-space: pre-wrap;
+  word-break: break-all;
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.snip pre {
+  margin: 0;
+  padding: 9px;
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--bone-2);
+  overflow-x: auto;
+  white-space: pre;
+  scrollbar-width: thin;
+}
+
+.snip .tok-fn {
+  color: var(--acid);
+}
+
+.snip .tok-mut {
+  color: var(--bone-4);
+}
+
+.snip .tok-str {
+  color: #9fe8d8;
+}
+
+/* ── Flag callout ────────────────────────────────────────── */
+
+.flagnote {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: var(--hair) solid rgba(255, 138, 61, 0.3);
+  background: rgba(255, 138, 61, 0.05);
+  padding: 12px 14px;
+  margin-top: 18px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--bone-2);
+}
+
+.flagnote code {
+  color: var(--warn);
+  font-size: 11px;
+}
+
+.flagnote b {
+  color: var(--bone);
+  font-weight: 500;
+}
+
+/* ── Catalog ─────────────────────────────────────────────── */
+
+.cat {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  border-top: var(--hair) solid var(--rule);
+  border-left: var(--hair) solid var(--rule);
+}
+
+.cat__cell {
+  border-right: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  transition: background 0.14s;
+  min-height: 194px;
+}
+
+.cat__cell:hover {
+  background: var(--ink-1);
+}
+
+.cat__cell:hover .cat__name {
+  color: var(--acid);
+}
+
+.cat__top {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.cat__n {
+  font-size: 9px;
+  color: var(--bone-4);
+}
+
+.cat__name {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 106, "wght" 700;
+  font-size: 16px;
+  line-height: 1.05;
+  letter-spacing: 0.002em;
+  transition: color 0.14s var(--ease);
+}
+
+.cat__fam {
+  margin-left: auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex: none;
+  align-self: center;
+}
+
+.cat__fam--overlay {
+  background: var(--acid);
+}
+
+.cat__fam--canvas {
+  background: var(--warn);
+}
+
+.cat__fam--object {
+  background: var(--bone-3);
+}
+
+.cat__idea {
+  font-size: 11.5px;
+  line-height: 1.62;
+  color: var(--bone-2);
+  font-weight: 300;
+  margin: 0;
+}
+
+.cat__go {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bone-4);
+}
+
+.cat__cell:hover .cat__go {
+  color: var(--acid);
+}
+
+/* ── Legend ──────────────────────────────────────────────── */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 22px;
+  font-size: 10.5px;
+  color: var(--bone-3);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: block;
+}
+
+/* ── Object bench ────────────────────────────────────────── */
+
+.obj {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+
+@media (min-width: 1080px) {
+  .obj {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+.obj__stage {
+  border: var(--hair) solid var(--rule);
+  background: var(--ink-1);
+  height: 460px;
+  position: relative;
+  overflow: hidden;
+}
+
+.obj__stage > * {
+  width: 100%;
+  height: 100%;
+}
+
+/* Object picker: a 2-up grid, so five items never leave a ragged
+   half-empty row the way a wrapping segmented control does. */
+.objpick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: var(--hair) solid var(--rule);
+}
+
+.objpick button {
+  padding: 7px 9px;
+  background: var(--ink-1);
+  font-size: 9.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  text-align: left;
+  transition: background 0.12s, color 0.12s;
+}
+
+.objpick button:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.objpick button:hover {
+  color: var(--bone);
+  background: var(--ink-3);
+}
+
+.objpick button[aria-pressed="true"] {
+  background: var(--acid);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.foot {
+  position: relative;
+  z-index: 1;
+  border-top: var(--hair) solid var(--rule);
+  padding: 30px var(--gut) 56px;
+  max-width: 1560px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 40px;
+  align-items: baseline;
+  font-size: 11px;
+  color: var(--bone-3);
+}
+
+.foot a {
+  color: var(--bone-2);
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+}
+
+.foot a:hover {
+  color: var(--acid);
+}
+
+/* ── Full-bleed mode ─────────────────────────────────────── */
+
+.bleed-exit {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  background: var(--ink);
+  border: var(--hair) solid var(--acid);
+  color: var(--bone);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bleed-exit kbd {
+  font-family: var(--mono);
+  font-size: 9px;
+  border: var(--hair) solid var(--rule);
+  padding: 1px 5px;
+  color: var(--bone-3);
+}
+
+/* ── Loading shim ────────────────────────────────────────── */
+
+.pending {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-4);
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.pending span {
+  animation: blink 1.1s steps(2, end) infinite;
+}
+
+
+/* ── Motion ──────────────────────────────────────────────────────────────
+   CSS animations (not class-gated transitions) so the content is visible
+   by default and still arrives properly in headless renderers. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes widen {
+  from {
+    opacity: 0;
+    font-variation-settings: "wdth" 84, "wght" 800;
+  }
+}
+
+.head__kicker {
+  animation: rise 0.6s var(--ease) both;
+}
+
+.head h1 {
+  animation: widen 1s var(--ease) both 0.06s;
+}
+
+.head__sub {
+  animation: rise 0.7s var(--ease) both 0.22s;
+}
+
+.rail__item,
+.cat__cell {
+  transition:
+    background 0.16s var(--ease),
+    color 0.16s var(--ease),
+    border-color 0.16s var(--ease);
+}
+
+/* Keyboard focus must stay visible — several controls are icon-only. */
+:where(button, a, input):focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ── Narrow viewports ────────────────────────────────────────────────────
+   The bench is a desktop instrument, but nothing may overflow the viewport.
+   Section heads stack, the right-aligned notes go left, and the fixed-height
+   stage gives back some room. */
+
+@media (max-width: 860px) {
+  .sec__head {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .sec__head h2 {
+    white-space: normal;
+  }
+
+  .sec__head::after {
+    display: none;
+  }
+
+  .sec__note {
+    text-align: left;
+    margin-left: 0;
+    max-width: 60ch;
+    flex: 1 0 100%;
+  }
+
+  .spec {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .spec dt {
+    padding-top: 10px;
+  }
+
+  .stage {
+    height: 540px;
+  }
+
+  .rail {
+    max-height: 300px;
+  }
+
+  .obj__stage {
+    height: 340px;
+  }
+}
+
+@media (max-width: 560px) {
+  .bar__stat {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Touch targets: the rail is the primary control on a phone. */
+  .rail__item {
+    padding: 11px 12px;
+  }
+
+  .seg button,
+  .objpick button {
+    padding: 10px 12px;
+  }
+}

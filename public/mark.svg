@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Lens plate: a rounded square with an aperture bored through it.
+       One closed path with an even-odd hole extrudes cleanly in the
+       *Object components — keep it simple, thin details read as noise. -->
+  <path
+    fill="#d6f84c"
+    fill-rule="evenodd"
+    d="M40 12h176a28 28 0 0 1 28 28v176a28 28 0 0 1-28 28H40a28 28 0 0 1-28-28V40a28 28 0 0 1 28-28Zm88 56a60 60 0 1 0 0 120 60 60 0 0 0 0-120Z"
+  />
+</svg>

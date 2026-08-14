@@ -1,0 +1,544 @@
+/* ============================================================
+   SPECIMENS — the interfaces that sit under the lens.
+   These are deliberately real: live buttons, inputs, hover
+   states. If the effect is working, all of it still responds
+   while it is being refracted, shattered or asciified.
+   ============================================================ */
+
+.surf {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  font-family: var(--mono);
+}
+
+/* ── 01. OPS CONSOLE — dark, dense, technical ────────────── */
+
+.ops {
+  background: #0c0d0f;
+  color: #e6e4de;
+  padding: 20px 22px 26px;
+  min-height: 100%;
+}
+
+.ops__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(230, 228, 222, 0.1);
+}
+
+.ops__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+}
+
+.ops__title {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.ops__env {
+  margin-left: auto;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 228, 222, 0.4);
+  border: 1px solid rgba(230, 228, 222, 0.14);
+  padding: 2px 7px;
+}
+
+.ops__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(230, 228, 222, 0.1);
+  border: 1px solid rgba(230, 228, 222, 0.1);
+  margin: 16px 0;
+}
+
+.ops__stat {
+  background: #0c0d0f;
+  padding: 13px 14px 15px;
+}
+
+.ops__stat dt {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 228, 222, 0.4);
+}
+
+.ops__stat dd {
+  margin: 5px 0 0;
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+
+.ops__stat dd small {
+  font-size: 11px;
+  color: rgba(230, 228, 222, 0.4);
+  margin-left: 3px;
+}
+
+.ops__delta {
+  font-size: 10px;
+  margin-top: 6px;
+  color: #4ade80;
+}
+
+.ops__delta--down {
+  color: #f87171;
+}
+
+/* Bar chart built from divs so the effect has real geometry to chew on. */
+.ops__chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 74px;
+  padding: 0 1px;
+  margin-bottom: 6px;
+}
+
+.ops__bar {
+  flex: 1;
+  background: linear-gradient(180deg, #d6f84c 0%, rgba(214, 248, 76, 0.22) 100%);
+  min-height: 3px;
+  transition: opacity 0.15s;
+}
+
+.ops__bar:hover {
+  opacity: 0.55;
+}
+
+.ops__axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8.5px;
+  color: rgba(230, 228, 222, 0.3);
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(230, 228, 222, 0.1);
+  padding-top: 5px;
+  margin-bottom: 16px;
+}
+
+.ops__log {
+  border: 1px solid rgba(230, 228, 222, 0.1);
+}
+
+.ops__logtop {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(230, 228, 222, 0.1);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 228, 222, 0.4);
+}
+
+.ops__line {
+  display: flex;
+  gap: 10px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  border-bottom: 1px solid rgba(230, 228, 222, 0.05);
+}
+
+.ops__line:last-child {
+  border-bottom: none;
+}
+
+.ops__line time {
+  color: rgba(230, 228, 222, 0.32);
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.ops__lvl {
+  flex: none;
+  width: 34px;
+  font-weight: 600;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  padding-top: 1px;
+}
+
+.ops__lvl--ok {
+  color: #4ade80;
+}
+.ops__lvl--wrn {
+  color: #fbbf24;
+}
+.ops__lvl--err {
+  color: #f87171;
+}
+
+.ops__msg {
+  color: rgba(230, 228, 222, 0.72);
+  min-width: 0;
+}
+
+.ops__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ops__btn {
+  padding: 7px 14px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(230, 228, 222, 0.18);
+  color: rgba(230, 228, 222, 0.8);
+  transition: background 0.13s, color 0.13s, border-color 0.13s;
+}
+
+.ops__btn:hover {
+  border-color: #d6f84c;
+  color: #d6f84c;
+}
+
+.ops__btn--go {
+  background: #d6f84c;
+  border-color: #d6f84c;
+  color: #0c0d0f;
+  font-weight: 600;
+}
+
+.ops__btn--go:hover {
+  background: #e4ff74;
+  color: #0c0d0f;
+}
+
+/* ── 02. STOREFRONT — bright, high contrast ──────────────── */
+
+.shop {
+  background: #f4f1ea;
+  color: #16150f;
+  padding: 26px 26px 30px;
+  min-height: 100%;
+}
+
+.shop__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  border-bottom: 1.5px solid #16150f;
+  padding-bottom: 10px;
+}
+
+.shop__brand h3 {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 118, "wght" 800;
+  text-transform: uppercase;
+  font-size: 21px;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.shop__brand span {
+  margin-left: auto;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(22, 21, 15, 0.5);
+}
+
+.shop__hero {
+  margin: 20px 0 22px;
+}
+
+.shop__hero p {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 112, "wght" 800;
+  text-transform: uppercase;
+  font-size: clamp(28px, 4.6vw, 46px);
+  line-height: 1.02;
+  margin: 0;
+  letter-spacing: -0.02em;
+  max-width: 15ch;
+}
+
+.shop__hero em {
+  font-style: italic;
+  color: #b4441f;
+}
+
+.shop__tiers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5px;
+  background: #16150f;
+  border: 1.5px solid #16150f;
+}
+
+.shop__tier {
+  background: #f4f1ea;
+  padding: 15px 15px 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: background 0.14s;
+}
+
+.shop__tier:hover {
+  background: #eae5d8;
+}
+
+.shop__tier[data-pick="true"] {
+  background: #16150f;
+  color: #f4f1ea;
+}
+
+.shop__tier h4 {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.shop__price {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 100, "wght" 700;
+  font-size: 38px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.shop__price small {
+  font-family: var(--mono);
+  font-size: 10px;
+  opacity: 0.55;
+  margin-left: 2px;
+}
+
+.shop__feat {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.75;
+  opacity: 0.72;
+}
+
+.shop__feat li::before {
+  content: "→ ";
+  opacity: 0.5;
+}
+
+.shop__cta {
+  margin-top: 12px;
+  padding: 9px;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: 1.5px solid currentColor;
+  transition: background 0.14s, color 0.14s;
+}
+
+.shop__tier[data-pick="true"] .shop__cta {
+  background: #d6f84c;
+  border-color: #d6f84c;
+  color: #16150f;
+}
+
+.shop__cta:hover {
+  background: #16150f;
+  color: #f4f1ea;
+}
+
+.shop__tier[data-pick="true"] .shop__cta:hover {
+  background: #f4f1ea;
+  border-color: #f4f1ea;
+  color: #16150f;
+}
+
+.shop__note {
+  margin: 16px 0 0;
+  font-size: 10.5px;
+  color: rgba(22, 21, 15, 0.55);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.shop__swatches {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.shop__sw {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  transition: transform 0.13s;
+}
+
+.shop__sw:hover {
+  transform: scale(1.16);
+}
+
+.shop__sw[aria-pressed="true"] {
+  border-color: #16150f;
+}
+
+/* ── 03. EDITORIAL — type-forward, for reveal effects ────── */
+
+.ed {
+  background: #100f0d;
+  color: #ece7dc;
+  padding: 26px 28px 30px;
+  min-height: 100%;
+}
+
+.ed__meta {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(236, 231, 220, 0.42);
+  border-bottom: 1px solid rgba(236, 231, 220, 0.13);
+  padding-bottom: 9px;
+}
+
+.ed__meta b {
+  color: #d6f84c;
+  font-weight: 500;
+}
+
+.ed h3 {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 84, "wght" 800;
+  text-transform: uppercase;
+  font-size: clamp(32px, 5.4vw, 58px);
+  line-height: 0.95;
+  letter-spacing: -0.022em;
+  margin: 18px 0 0;
+  max-width: 17ch;
+}
+
+.ed h3 em {
+  font-style: italic;
+  color: #d6f84c;
+}
+
+.ed__standfirst {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(236, 231, 220, 0.62);
+  max-width: 46ch;
+  margin: 14px 0 20px;
+  font-weight: 300;
+}
+
+.ed__cols {
+  columns: 2;
+  column-gap: 26px;
+  column-rule: 1px solid rgba(236, 231, 220, 0.1);
+  font-size: 11.5px;
+  line-height: 1.72;
+  color: rgba(236, 231, 220, 0.74);
+  font-weight: 300;
+}
+
+@media (max-width: 620px) {
+  .ed__cols {
+    columns: 1;
+  }
+}
+
+.ed__cols p {
+  margin: 0 0 11px;
+}
+
+.ed__cols p:first-child::first-letter {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 84, "wght" 800;
+  font-size: 40px;
+  float: left;
+  line-height: 0.82;
+  padding: 3px 7px 0 0;
+  color: #ece7dc;
+}
+
+/* Full rule above/below rather than a colored side-stripe. */
+.ed__pull {
+  break-inside: avoid;
+  border-top: 1px solid #d6f84c;
+  border-bottom: 1px solid rgba(236, 231, 220, 0.18);
+  padding: 9px 0;
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 88, "wght" 600;
+  font-size: 13px;
+  line-height: 1.34;
+  color: #ece7dc;
+}
+
+.ed__sign {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(236, 231, 220, 0.13);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(236, 231, 220, 0.42);
+}
+
+.ed__field {
+  margin-left: auto;
+  display: flex;
+  border: 1px solid rgba(236, 231, 220, 0.2);
+}
+
+.ed__field input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #ece7dc;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  padding: 6px 9px;
+  width: 128px;
+}
+
+.ed__field input::placeholder {
+  color: rgba(236, 231, 220, 0.32);
+}
+
+.ed__field input:focus {
+  background: rgba(214, 248, 76, 0.07);
+}
+
+.ed__field button {
+  padding: 6px 11px;
+  background: #d6f84c;
+  color: #100f0d;
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.ed__field button:hover {
+  background: #e4ff74;
+}
