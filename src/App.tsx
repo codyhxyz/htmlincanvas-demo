@@ -232,8 +232,9 @@ function Masthead({ supported }: { supported: boolean }) {
             <>That's your live DOM inside a shader — still selectable, still clickable.</>
           ) : (
             <>
-              Right now it's a WebGL overlay. Run <code>npm run lab</code> and the shader
-              starts sampling the type itself.
+              Right now that's a WebGL overlay. Turn on{" "}
+              <code>chrome://flags/#canvas-draw-element</code> and the shader starts sampling
+              the type itself.
             </>
           )}
         </p>
@@ -448,9 +449,9 @@ export default function App() {
             <span className="led led--off" style={{ marginTop: 6 }} />
             <div>
               <b>{meta.title} is sitting this one out.</b> You're seeing the plain-HTML
-              fallback — which is what your visitors see today. Run <code>npm run lab</code>,
-              or enable <code>chrome://flags/#canvas-draw-element</code>. The ten overlay
-              effects above need neither.
+              fallback — exactly what your own visitors would see. Enable{" "}
+              <code>chrome://flags/#canvas-draw-element</code> and restart Chrome to watch it
+              work. The ten overlay effects above need no flag.
             </div>
           </div>
         )}
@@ -563,7 +564,8 @@ export default function App() {
           Re-pull: <code>npm run vendor</code>
         </span>
         <span style={{ marginLeft: "auto" }}>
-          <a href="https://canvasui.dev/docs">Docs</a> · <a href="https://canvasui.dev/docs/mcp">MCP</a>
+          <a href="https://github.com/codyhxyz/htmlincanvas-demo">Source</a> ·{" "}
+          <a href="https://canvasui.dev/docs">Canvas UI docs</a>
         </span>
       </footer>
     </div>
