@@ -9,6 +9,25 @@
       name="description"
       content="A working catalog of Canvas UI: 33 shader effects mounted over one live, interactive interface."
     />
+    <link rel="canonical" href="https://htmlincanvas.codyh.xyz/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://htmlincanvas.codyh.xyz/" />
+    <meta property="og:title" content="Optics Bench — Canvas UI" />
+    <meta
+      property="og:description"
+      content="A working catalog of Canvas UI: 33 shader effects mounted over one live, interactive interface."
+    />
+    <meta property="og:image" content="https://htmlincanvas.codyh.xyz/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Optics Bench: the page is the texture" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Optics Bench — Canvas UI" />
+    <meta
+      name="twitter:description"
+      content="A working catalog of Canvas UI: 33 shader effects mounted over one live, interactive interface."
+    />
+    <meta name="twitter:image" content="https://htmlincanvas.codyh.xyz/og.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Archivo carries a width axis (75–125), so one family covers signage-wide
@@ -17,9 +36,35 @@
       href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Spline+Sans+Mono:wght@300..600&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* Screen-reader-only until the app mounts: React replaces #root's
+         children on first render, so this never flashes and never lingers. */
+      .premount {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <article class="premount">
+        <h1>Optics Bench: a live catalog of Canvas UI</h1>
+        <p>Optics Bench runs all 33 Canvas UI shader effects over one real, interactive HTML page. The buttons still click and the input still types while the interface is being shattered, rippled or dithered. Nothing on the bench is a screenshot.</p>
+        <p>Chrome has an experimental html-in-canvas API that lets a shader sample live DOM, not a screenshot and not an iframe. Docs show effects one at a time; this page runs the same interface through every one of them, which is the fastest way to work out which effect is right for what.</p>
+        <h2>Bench</h2>
+        <p>Pick any of 28 Canvas UI lenses and apply it to a live specimen UI: a console, a storefront or an editorial page. Press F to apply the current effect to the entire page, and use the bracket keys to cycle through effects.</p>
+        <h2>Objects</h2>
+        <p>The five three.js renderers, all pointed at the same SVG. One SVG, five materials, no 3D pipeline and no flag.</p>
+        <h2>Built here</h2>
+        <p>Six effects (mosaic, ordered dither, ASCII, tear, ripple and CRT) and the engine under them, written from scratch against the raw html-in-canvas API. MIT licensed, in the repo, no dependency.</p>
+        <h2>Uses</h2>
+        <p>All 33 effects, each with the use case it is genuinely best at. Eighteen of them need Chrome's html-in-canvas flag; the other fifteen run in any modern browser.</p>
+      </article>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
